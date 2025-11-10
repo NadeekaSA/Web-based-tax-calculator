@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Based Tax Calculator</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Web-Based Tax Calculator</h1>
+            <p>Calculate various taxes and leasing options with ease</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="withholding">Withholding Tax</div>
+            <div class="tab" data-tab="payable">Payable Tax (Monthly)</div>
+            <div class="tab" data-tab="income">Income Tax (Annual)</div>
+            <div class="tab" data-tab="sscl">SSCL Tax</div>
+            <div class="tab" data-tab="leasing">Leasing Calculations</div>
+        </div>
+        
+        <!-- Withholding Tax Section -->
+        <section id="withholding" class="calculator-section active">
+            <h2>Withholding Tax Calculator</h2>
+            <div class="form-group">
+                <label for="taxType">Select Tax Type:</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="rentTax" name="taxType" value="rent" checked>
+                        <label for="rentTax">Rent Tax (10% for values above Rs. 100,000)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="bankInterest" name="taxType" value="bank">
+                        <label for="bankInterest">Bank Interest Tax (5%)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dividend" name="taxType" value="dividend">
+                        <label for="dividend">Dividend Tax (14% for values above Rs. 100,000)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="withholdingAmount">Amount (Rs.):</label>
+                <input type="number" id="withholdingAmount" placeholder="Enter amount">
+                <div class="error" id="withholdingError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calculateWithholding">Calculate Tax</button>
+                <button class="reset-btn" id="resetWithholding">Reset</button>
+            </div>
+            
+            <div class="result" id="withholdingResult" style="display: none;">
+                <h3>Withholding Tax Result</h3>
+                <div class="result-item">
+                    <span>Tax Type:</span>
+                    <span id="resultTaxType"></span>
+                </div>
+                <div class="result-item">
+                    <span>Amount:</span>
+                    <span id="resultAmount"></span>
+                </div>
+                <div class="result-item">
+                    <span>Tax Rate:</span>
+                    <span id="resultTaxRate"></span>
+                </div>
+                <div class="result-item">
+                    <span>Tax Amount:</span>
+                    <span id="resultTaxAmount"></span>
+                </div>
+                <div class="result-item">
+                    <span>Net Amount:</span>
+                    <span id="resultNetAmount"></span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Payable Tax Section -->
+        <section id="payable" class="calculator-section">
+            <h2>Monthly Payable Tax Calculator</h2>
+            <div class="form-group">
+                <label for="monthlySalary">Monthly Salary (Rs.):</label>
+                <input type="number" id="monthlySalary" placeholder="Enter monthly salary">
+                <div class="error" id="monthlySalaryError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calculatePayable">Calculate Tax</button>
+                <button class="reset-btn" id="resetPayable">Reset</button>
+            </div>
+            
+            <div class="result" id="payableResult" style="display: none;">
+                <h3>Monthly Payable Tax Result</h3>
+                <div class="result-item">
+                    <span>Monthly Salary:</span>
+                    <span id="resultMonthlySalary"></span>
+                </div>
+                <div class="result-item">
+                    <span>Tax Amount:</span>
+                    <span id="resultMonthlyTax"></span>
+                </div>
+                <div class="result-item">
+                    <span>Net Salary:</span>
+                    <span id="resultNetSalary"></span>
+                </div>
+                
+                <div class="tax-brackets">
+                    <h3>Tax Breakdown</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Salary Range (Rs.)</th>
+                                <th>Tax Rate</th>
+                                <th>Taxable Amount</th>
+                                <th>Tax</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payableBreakdown">
+                            <!-- Tax breakdown will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Income Tax Section -->
+        <section id="income" class="calculator-section">
+            <h2>Annual Income Tax Calculator</h2>
+            <div class="form-group">
+                <label for="annualIncome">Annual Income (Rs.):</label>
+                <input type="number" id="annualIncome" placeholder="Enter annual income">
+                <div class="error" id="annualIncomeError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calculateIncome">Calculate Tax</button>
+                <button class="reset-btn" id="resetIncome">Reset</button>
+            </div>
+            
+            <div class="result" id="incomeResult" style="display: none;">
+                <h3>Annual Income Tax Result</h3>
+                <div class="result-item">
+                    <span>Annual Income:</span>
+                    <span id="resultAnnualIncome"></span>
+                </div>
+                <div class="result-item">
+                    <span>Tax Amount:</span>
+                    <span id="resultAnnualTax"></span>
+                </div>
+                <div class="result-item">
+                    <span>Net Income:</span>
+                    <span id="resultAnnualNet"></span>
+                </div>
+                
+                <div class="tax-brackets">
+                    <h3>Tax Breakdown</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Income Range (Rs.)</th>
+                                <th>Tax Rate</th>
+                                <th>Taxable Amount</th>
+                                <th>Tax</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeBreakdown">
+                            <!-- Tax breakdown will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SSCL Tax Section -->
+        <section id="sscl" class="calculator-section">
+            <h2>SSCL Tax Calculator</h2>
+            <div class="form-group">
+                <label for="ssclAmount">Amount (Rs.):</label>
+                <input type="number" id="ssclAmount" placeholder="Enter amount">
+                <div class="error" id="ssclError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calculateSSCL">Calculate Tax</button>
+                <button class="reset-btn" id="resetSSCL">Reset</button>
+            </div>
+            
+            <div class="result" id="ssclResult" style="display: none;">
+                <h3>SSCL Tax Result</h3>
+                <div class="result-item">
+                    <span>Original Amount:</span>
+                    <span id="resultSSCLOriginal"></span>
+                </div>
+                <div class="result-item">
+                    <span>Sale Tax (2.5%):</span>
+                    <span id="resultSaleTax"></span>
+                </div>
+                <div class="result-item">
+                    <span>After Sale Tax Amount:</span>
+                    <span id="resultAfterSale"></span>
+                </div>
+                <div class="result-item">
+                    <span>VAT (15%):</span>
+                    <span id="resultVAT"></span>
+                </div>
+                <div class="result-item">
+                    <span>Total SSCL Tax:</span>
+                    <span id="resultSSCLTotal"></span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Leasing Section -->
+        <section id="leasing" class="calculator-section">
+            <h2>Leasing Calculator</h2>
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount (Rs.):</label>
+                <input type="number" id="loanAmount" placeholder="Enter loan amount">
+                <div class="error" id="loanAmountError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="interestRate">Annual Interest Rate (%):</label>
+                <input type="number" id="interestRate" step="0.01" placeholder="Enter interest rate">
+                <div class="error" id="interestRateError">Please enter a valid positive number</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="loanYears">Loan Term (Years, max 5):</label>
+                <input type="number" id="loanYears" min="1" max="5" placeholder="Enter loan term in years">
+                <div class="error" id="loanYearsError">Please enter a valid number between 1 and 5</div>
+            </div>
+            
+            <div class="button-group">
+                <button id="calculateLeasing">Calculate EMI</button>
+                <button class="reset-btn" id="resetLeasing">Reset</button>
+            </div>
+            
+            <div class="result" id="leasingResult" style="display: none;">
+                <h3>Leasing Calculation Result</h3>
+                <div class="result-item">
+                    <span>Loan Amount:</span>
+                    <span id="resultLoanAmount"></span>
+                </div>
+                <div class="result-item">
+                    <span>Annual Interest Rate:</span>
+                    <span id="resultInterestRate"></span>
+                </div>
+                <div class="result-item">
+                    <span>Loan Term:</span>
+                    <span id="resultLoanTerm"></span>
+                </div>
+                <div class="result-item">
+                    <span>Monthly Payment (EMI):</span>
+                    <span id="resultEMI"></span>
+                </div>
+                <div class="result-item">
+                    <span>Total Payment:</span>
+                    <span id="resultTotalPayment"></span>
+                </div>
+                <div class="result-item">
+                    <span>Total Interest:</span>
+                    <span id="resultTotalInterest"></span>
+                </div>
+                
+                <div class="tax-brackets">
+                    <h3>Plan Comparison</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loan Term</th>
+                                <th>Monthly Payment</th>
+                                <th>Total Payment</th>
+                                <th>Total Interest</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leasingComparison">
+                            <!-- Leasing comparison will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Web-Based Tax Calculator &copy; 2025</p>
+        </footer>
+    </div>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
